@@ -163,7 +163,7 @@ void execute(string command)
     int result = system(command.c_str());
     if (result != 0)
     {
-        cout << "Command failed with resuld code " << result << " ( command was " << command << ")" <<endl;
+        cout << "Command failed with result code " << result << " ( command was " << command << ")" <<endl;
         exit(1);
     }
 }
