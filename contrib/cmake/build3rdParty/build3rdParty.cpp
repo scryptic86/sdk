@@ -32,6 +32,7 @@ namespace fs = std::__fs::filesystem;
 bool build = false;
 bool setup = false;
 bool removeUnusedPorts = false;
+bool noPkgConfig = false;
 fs::path portsFile;
 fs::path sdkRootPath;
 string triplet;
@@ -120,6 +121,21 @@ try
                 }
             }
 
+            if (noPkgConfig)
+            {
+                cout << "Suppressing vcpkg_fixup_pkgconfig to skip pkgconfig integration of installed packages\n";
+                ofstream vcpkg_fixup_pkgconfig(vcpkgDir / "scripts" / "cmake" / "vcpkg_fixup_pkgconfig.cmake", std::ios::trunc);
+                if (!vcpkg_fixup_pkgconfig)
+                {
+                    cout << "Could not open vcpkg script file to suppress pkgconfig\n";
+                    return 1;
+                }
+
+                vcpkg_fixup_pkgconfig << 
+                "function(vcpkg_fixup_pkgconfig)\n"
+                "endfunction()\n";
+            }
+
         }
         else if (build)
         {
@@ -144,8 +160,6 @@ try
                 #endif
             }
         }
-
-
     }
 
     return 0;
@@ -171,7 +185,7 @@ void execute(string command)
 
 bool showSyntax()
 {
-    cout << "build3rdParty --setup [--removeunusedports] --ports <ports override file> --triplet <triplet> --sdkroot <path>" << endl;
+    cout << "build3rdParty --setup [--removeunusedports] [--nopkgconfig] --ports <ports override file> --triplet <triplet> --sdkroot <path>" << endl;
     cout << "build3rdParty --build --ports <ports override file> --triplet <triplet>" << endl;
     return false;
 }
@@ -207,6 +221,10 @@ bool readCommandLine(int argc, char* argv[])
         else if (std::string(*it) == "--removeunusedports" && setup)
         {
             removeUnusedPorts = true;
+        }
+        else if (std::string(*it) == "--nopkgconfig" && setup)
+        {
+            noPkgConfig = true;
         }
         else if (std::string(*it) == "--build")
         {
