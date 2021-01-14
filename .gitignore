@@ -79,6 +79,7 @@ doc/example/lsmega
 .project
 .cproject
 .settings
+*.vscode
 *~
 Debug
 Release
