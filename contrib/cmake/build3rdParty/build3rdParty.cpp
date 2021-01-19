@@ -134,7 +134,7 @@ try
                 vcpkg_fixup_pkgconfig << 
                 "function(vcpkg_fixup_pkgconfig)\n"
                 "endfunction()\n"
-                "set(PKGCONFIG \"echo pkg_config no-op \\$@\")\n";
+                "set(PKGCONFIG \":\")\n"; // i.e., use no-op : operator
             }
 
         }
