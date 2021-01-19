@@ -123,7 +123,7 @@ try
 
             if (noPkgConfig)
             {
-                cout << "Suppressing vcpkg_fixup_pkgconfig to skip pkgconfig integration of installed packages\n";
+                cout << "Performing no-op substitution of vcpkg_fixup_pkgconfig and PKGCONFIG to skip pkgconfig integration/checks\n";
                 ofstream vcpkg_fixup_pkgconfig(vcpkgDir / "scripts" / "cmake" / "vcpkg_fixup_pkgconfig.cmake", std::ios::trunc);
                 if (!vcpkg_fixup_pkgconfig)
                 {
@@ -133,7 +133,8 @@ try
 
                 vcpkg_fixup_pkgconfig << 
                 "function(vcpkg_fixup_pkgconfig)\n"
-                "endfunction()\n";
+                "endfunction()\n"
+                "set(PKGCONFIG \"echo pkg_config no-op \\$@\")\n";
             }
 
         }
