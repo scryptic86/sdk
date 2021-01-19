@@ -319,7 +319,8 @@ function(ImportHeaderLibrary libName includeDir)
 endfunction(ImportHeaderLibrary)
 
 if (APPLE AND NOT NO_READLINE)
-    set(_mac_readline_prefix "${Mega3rdPartyDir}/vcpkg/readline-8.0/readline/")
+    # TODO: If we use vcpkg.cmake as the toolchain file we can avoid hardcoding x64-osx
+    set(_mac_readline_prefix "${Mega3rdPartyDir}/vcpkg/installed/x64-osx/")
     ImportALibrary(macgnureadline "${_mac_readline_prefix}include" "${_mac_readline_prefix}/lib/libreadline.a" "${_mac_readline_prefix}/lib/libreadline.a")
     ImportALibrary(macgnuhistory "${_mac_readline_include}" "${_mac_readline_prefix}/lib/libhistory.a" "${_mac_readline_prefix}/lib/libhistory.a") 
 endif()
